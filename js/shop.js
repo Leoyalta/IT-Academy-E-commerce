@@ -78,27 +78,14 @@ const cart = [];
 const total = 0;
 
 const buy = (id) => {
-  // 1. Loop for to the array products to get the item to add to cart
   const productToAdd = products.find((product) => product.id === id);
-  // 2. Add found product to the cart array
+
   const cartItem = cart.find((item) => item.id === id);
   cartItem
     ? (cartItem.quantity += 1)
     : cart.push({ ...productToAdd, quantity: 1 });
-  console.log(cart);
-  cart.forEach((item) => {
-    if (item.name === "cooking oil" && item.quantity >= 3) {
-      console.log(item.name);
-      item.subtotalWithDiscount = (item.price * item.quantity * 0.8).toFixed(2);
-    } else if (item.name === "Instant cupcake mixture" && item.quantity >= 10) {
-      console.log(item.name);
-
-      item.subtotalWithDiscount = (item.price * item.quantity * 0.7).toFixed(2);
-    } else {
-      return;
-    }
-  });
-
+  applyPromotionsCart(cart);
+  printCart();
   return cart;
 };
 
@@ -113,10 +100,12 @@ function cleanCart() {
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
   const total = cart.reduce((acc, item) => {
-    return (acc += item.applyPromotionsCart
-      ? item.applyPromotionsCart
+    return (acc += item.subtotalWithDiscount
+      ? item.subtotalWithDiscount
       : item.price * item.quantity);
   }, 0);
+  console.log(total);
+
   return total;
 }
 
@@ -124,10 +113,17 @@ function calculateTotal() {
 function applyPromotionsCart(cart) {
   //   Apply promotions to each item in the array "cart"
   cart.forEach((item) => {
-    if (item.name === "cooking oil" && item.quantity >= 3) {
-      item.subtotalWithDiscount = item.price * item.quantity * (0.8).toFixed(2);
-    } else if (item.name === "Instant cupcake mixture" && item.quantity >= 10) {
-      item.subtotalWithDiscount = (item.price * item.quantity * 0.7).toFixed(2);
+    if (item.name === "cooking oil" && item.quantity >= item.offer.number) {
+      item.subtotalWithDiscount = Number(
+        (item.price * item.quantity * 0.8).toFixed(2)
+      );
+    } else if (
+      item.name === "Instant cupcake mixture" &&
+      item.quantity >= item.offer.number
+    ) {
+      item.subtotalWithDiscount = Number(
+        (item.price * item.quantity * 0.7).toFixed(2)
+      );
     } else {
       return;
     }
@@ -137,6 +133,7 @@ function applyPromotionsCart(cart) {
 // Exercise 5
 
 function printCart() {
+  applyPromotionsCart(cart);
   // Fill the shopping cart modal manipulating the shopping cart dom
   const listMarkup = cart.reduce((acc, elem) => {
     const { id, name, price, quantity, subtotalWithDiscount } = elem;
@@ -152,8 +149,9 @@ function printCart() {
            <td>${totalProductPrice}</td>
           <td>
           <div class="d-flex gap-1"><button class="on-remove-btn 
-          btn btn-outline-warning" type="button" data-id="${id}"><i class="bi bi-trash"></i></button>
-           <button class="on-add-btn btn btn-outline-success" type="button" data-id="${id}"><i class="bi bi-bag-plus-fill"></i></button>
+          btn btn-outline-warning" type="button" data-id="${id}">
+          Remove</button>
+           <button class="on-add-btn btn btn-outline-success" type="button" data-id="${id}">Add one</button>
            </div>
 
           </td>
@@ -178,7 +176,6 @@ function printCart() {
 cartList.addEventListener("click", (event) => {
   if (event.target.classList.contains("on-remove-btn")) {
     const productId = Number(event.target.getAttribute("data-id"));
-    console.log(productId);
 
     removeFromCart(productId);
   }
@@ -187,12 +184,18 @@ cartList.addEventListener("click", (event) => {
 cartList.addEventListener("click", (event) => {
   if (event.target.classList.contains("on-add-btn")) {
     const productId = Number(event.target.getAttribute("data-id"));
-    console.log(productId);
-
-    buy(productId);
+    addToCart(productId);
     printCart();
   }
 });
+
+function addToCart(id) {
+  const cartItem = cart.find((item) => item.id === id);
+  console.log(cartItem);
+  cartItem && (cartItem.quantity += 1);
+  applyPromotionsCart(cart);
+  printCart();
+}
 
 function removeFromCart(id) {
   const cartItem = cart.find((item) => item.id === id);
@@ -209,10 +212,10 @@ function removeFromCart(id) {
     delete cartItem.subtotalWithDiscount;
   }
 
-  // if (cartItem.quantity === 0) {
-  //   cart.splice(cartItemIndex, 1);
-  // }
-
+  if (cartItem.quantity === 0) {
+    cart.splice(cartItemIndex, 1);
+  }
+  applyPromotionsCart(cart);
   printCart();
 }
 
