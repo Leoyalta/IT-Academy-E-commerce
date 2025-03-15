@@ -104,9 +104,9 @@ function calculateTotal() {
       ? item.subtotalWithDiscount
       : item.price * item.quantity);
   }, 0);
-  console.log(total);
+  console.log(Number(total.toFixed(2)));
 
-  return total;
+  return Number(total.toFixed(2));
 }
 
 // Exercise 4
