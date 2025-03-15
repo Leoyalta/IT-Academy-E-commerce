@@ -104,7 +104,6 @@ function calculateTotal() {
       ? item.subtotalWithDiscount
       : item.price * item.quantity);
   }, 0);
-  console.log(Number(total.toFixed(2)));
 
   return Number(total.toFixed(2));
 }
@@ -148,10 +147,13 @@ function printCart() {
            <td>${quantity}</td>
            <td>${totalProductPrice}</td>
           <td>
-          <div class="d-flex gap-1"><button class="on-remove-btn 
-          btn btn-outline-warning" type="button" data-id="${id}">
-          Remove</button>
-           <button class="on-add-btn btn btn-outline-success" type="button" data-id="${id}">Add one</button>
+          <div class="d-flex gap-1">
+          <button class="on-remove-btn btn btn-outline-warning" type="button" data-id="${id}">
+          Remove
+          </button>
+           <button class="on-add-btn btn btn-outline-success" type="button" data-id="${id}">
+           Add one
+           </button>
            </div>
 
           </td>
@@ -165,13 +167,6 @@ function printCart() {
 }
 
 // ** Nivell II **
-
-// Exercise 7
-// Has de completar la funció removeFromCart(), que rep l'identificador del producte per al qual s'ha de decrementar la seva quantitat en una unitat.
-
-// Recorda que si la quantitat del producte a decrementar és 1, has d'eliminar-lo del carret, no reduir la seva quantitat a 0.
-
-// No oblidis actualitzar les promocions.
 
 cartList.addEventListener("click", (event) => {
   if (event.target.classList.contains("on-remove-btn")) {
@@ -191,18 +186,13 @@ cartList.addEventListener("click", (event) => {
 
 function addToCart(id) {
   const cartItem = cart.find((item) => item.id === id);
-  console.log(cartItem);
   cartItem && (cartItem.quantity += 1);
-  applyPromotionsCart(cart);
   printCart();
 }
 
 function removeFromCart(id) {
   const cartItem = cart.find((item) => item.id === id);
-  console.log(cartItem);
-
   const cartItemIndex = cart.findIndex((item) => item.id === id);
-  console.log(cartItemIndex);
 
   cartItem && (cartItem.quantity -= 1);
   if (cartItem.name === "cooking oil" && cartItem.quantity < 3) {
@@ -215,7 +205,6 @@ function removeFromCart(id) {
   if (cartItem.quantity === 0) {
     cart.splice(cartItemIndex, 1);
   }
-  applyPromotionsCart(cart);
   printCart();
 }
 
