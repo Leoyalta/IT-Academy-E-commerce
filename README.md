@@ -34,4 +34,6 @@ Este proyecto es una tienda en línea llamada ShopNow que permite a los usuarios
 
 ## Demo
 
-Puedes ver el proyecto en acción aquí: https://leoyalta.github.io/IT-Academy-E-commerce/
+Puedes ver el proyecto en acción aquí:
+
+- https://leoyalta.github.io/IT-Academy-E-commerce/
