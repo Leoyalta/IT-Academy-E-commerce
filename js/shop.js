@@ -72,6 +72,8 @@ var products = [
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 const cartList = document.getElementById("cart_list");
 const totalPrice = document.getElementById("total_price");
+const cartBtnValue = document.getElementById("count_product");
+cartBtnValue.innerHTML = 0;
 
 const cart = [];
 
@@ -84,6 +86,8 @@ const buy = (id) => {
   cartItem
     ? (cartItem.quantity += 1)
     : cart.push({ ...productToAdd, quantity: 1 });
+
+  cartBtnValue.innerHTML = parseInt(cartBtnValue.innerHTML) + 1;
   applyPromotionsCart(cart);
   printCart();
   return cart;
@@ -94,18 +98,22 @@ function cleanCart() {
   cart.length = 0;
   cartList.innerHTML = "";
   totalPrice.innerHTML = "0";
+  cartBtnValue.innerHTML = 0;
 }
 
 // Exercise 3
 function calculateTotal() {
   // Calculate total price of the cart using the "cartList" array
   const total = cart.reduce((acc, item) => {
-    return (acc += item.subtotalWithDiscount
-      ? item.subtotalWithDiscount
-      : item.price * item.quantity);
+    return (
+      acc +
+      (item.subtotalWithDiscount
+        ? item.subtotalWithDiscount
+        : item.price * item.quantity)
+    );
   }, 0);
 
-  return Number(total.toFixed(2));
+  return parseFloat(total.toFixed(2));
 }
 
 // Exercise 4
@@ -138,7 +146,7 @@ function printCart() {
     const { id, name, price, quantity, subtotalWithDiscount } = elem;
     const totalProductPrice = subtotalWithDiscount
       ? subtotalWithDiscount
-      : price * quantity;
+      : (price * quantity).toFixed(2);
     return (
       acc +
       `	<tr>
@@ -187,6 +195,7 @@ cartList.addEventListener("click", (event) => {
 function addToCart(id) {
   const cartItem = cart.find((item) => item.id === id);
   cartItem && (cartItem.quantity += 1);
+  cartBtnValue.innerHTML = parseInt(cartBtnValue.innerHTML) + 1;
   printCart();
 }
 
@@ -205,6 +214,7 @@ function removeFromCart(id) {
   if (cartItem.quantity === 0) {
     cart.splice(cartItemIndex, 1);
   }
+  cartBtnValue.innerHTML = parseInt(cartBtnValue.innerHTML) - 1;
   printCart();
 }
 
