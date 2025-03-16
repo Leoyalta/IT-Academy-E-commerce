@@ -22,15 +22,15 @@ Este proyecto es una tienda en línea llamada ShopNow que permite a los usuarios
    - cd IT-Academy-E-commerce
 3. Abre el archivo index.html en tu navegador preferido.
 
-- No se requiere configuración adicional.
+   - No se requiere configuración adicional.
 
 ## Características Principales
 
-✅ Navegación entre múltiples categorías de productos: Grocery, Beauty y Clothes.
-✅ Funcionalidad de carrito de compras con opciones para agregar y eliminar productos.
-✅ Aplicación de promociones y descuentos en productos específicos.
-✅ Validación de formularios en la página de pago (checkout).
-✅ Diseño responsivo que se adapta a diferentes tamaños de pantalla.
+- ✅ Navegación entre múltiples categorías de productos: Grocery, Beauty y Clothes.
+- ✅ Funcionalidad de carrito de compras con opciones para agregar y eliminar productos.
+- ✅ Aplicación de promociones y descuentos en productos específicos.
+- ✅ Validación de formularios en la página de pago (checkout).
+- ✅ Diseño responsivo que se adapta a diferentes tamaños de pantalla.
 
 ## Demo
 
